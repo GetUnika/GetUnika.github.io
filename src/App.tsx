@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Box, Button, Slider, Stack } from '@mui/material';
-import data from './data.json';
+// import data from './data.json';
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const unikaPersonalities = [
@@ -37,6 +37,7 @@ function App() {
   const loaderIndexJump = 100;
   const [filterdData, setFilterdData] = useState<any | null>([]);
   const [tempData, setTempData] = useState<any | null>([]);
+  const [data, setData] = useState<any | null>([]);
   const [hasMore, setHasMore] = useState(true);
   const [persona, setPersona] = useState<any | null>(null);
   const [minPrice, setMinPirce] = useState(0);
@@ -45,6 +46,26 @@ function App() {
   const [value1, setValue1] = React.useState<number[]>([0, 1000]);
 
 
+  useEffect(() => {
+    getData();
+  }, [])
+
+  const getData = () => {
+    fetch('data.json'
+      , {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      }
+    )
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        setData(data);
+      });
+  }
 
 
   const marks = [
@@ -80,7 +101,7 @@ function App() {
     setTempData([]);
     setHasMore(true)
     setProductLoaderIndex(0)
-    let d = data.filter((product) => product.persona.indexOf(persona) > -1 && product.price.total > minPrice && product.price.total < maxPrice);
+    let d = data.filter((product: any) => product.persona.indexOf(persona) > -1 && product.price.total > minPrice && product.price.total < maxPrice);
     setTempData(d);
     setFilterdData(d.slice(0, productLoaderIndex));
     setProductLoaderIndex(productLoaderIndex + loaderIndexJump)
@@ -165,7 +186,7 @@ function App() {
             <div className='product-display-name'><b>ID: {value?.id}</b></div>
             <div className='product-display-name'><b>{value?.name}</b></div>
             {/* <div className='product-display-name'>{value?.description.en}</div> */}
-            <div className='product-display-price'><b>Price: {value?.price?.total}</b></div>
+            <div className='product-display-price'><b>Price: {value?.price?.total}₪</b></div>
             <div className='product-display-price'><b>Venue: {value?.venueName}</b></div>
             <hr />
             <img src={getImageUrl(value.image[0])} height="150" width="150" />
