@@ -143,7 +143,6 @@ function App() {
               setHasMore(false);
               return;
             }
-            debugger;
             setFilterdData(tempData.slice(0, productLoaderIndex + loaderIndexJump));
             setProductLoaderIndex(productLoaderIndex + loaderIndexJump)
           }}
