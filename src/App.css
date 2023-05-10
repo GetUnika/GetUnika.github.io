@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  height: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,7 +32,35 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.flex-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.unika-wrapper {
+  padding: 15px;
+  margin: 15px;
+  background: #eeeeee60;
+  border: 1px solid #eee;
+}
+
+.unika-inner-wrapper {
+  padding: 15px;
+  margin: 15px;
+  background: #fff;
 }
