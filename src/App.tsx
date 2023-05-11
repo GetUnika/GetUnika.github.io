@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Box, Button, Slider, Stack } from '@mui/material';
-// import data from './data.json';
+import Button from '@mui/material/Button';
+import { Box, Slider, Stack } from '@mui/material';
 import InfiniteScroll from "react-infinite-scroll-component";
+
+const MIN_PRICE = 0;
+const MAX_PRICE = 1000;
 
 const unikaPersonalities = [
   'foodies',
@@ -34,16 +37,16 @@ const unikaPersonalities = [
 ];
 
 function App() {
-  const loaderIndexJump = 100;
+  const loaderIndexJump = 35;
   const [filterdData, setFilterdData] = useState<any | null>([]);
   const [tempData, setTempData] = useState<any | null>([]);
   const [data, setData] = useState<any | null>([]);
   const [hasMore, setHasMore] = useState(true);
   const [persona, setPersona] = useState<any | null>(null);
-  const [minPrice, setMinPirce] = useState(0);
+  const [minPrice, setMinPrice] = useState(MIN_PRICE);
+  const [maxPrice, setMaxPirce] = useState(MAX_PRICE);
   const [productLoaderIndex, setProductLoaderIndex] = useState(loaderIndexJump);
-  const [maxPrice, setMaxPirce] = useState(1000);
-  const [value1, setValue1] = React.useState<number[]>([0, 1000]);
+  const [value1, setValue1] = React.useState<number[]>([MIN_PRICE, MAX_PRICE]);
 
 
   useEffect(() => {
@@ -70,11 +73,11 @@ function App() {
 
   const marks = [
     {
-      value: 0,
+      value: MIN_PRICE,
       label: '0₪',
     },
     {
-      value: 1000,
+      value: MAX_PRICE,
       label: '1,000₪',
     },
   ];
@@ -88,16 +91,12 @@ function App() {
       return;
     }
 
-    setMinPirce(newValue[0]);
+    setMinPrice(newValue[0]);
     setMaxPirce(newValue[1]);
     setValue1(newValue);
   };
 
-  function valuetext(value: number) {
-    return `${value}°C`;
-  }
-
-  function click() {
+  function search() {
     setTempData([]);
     setHasMore(true)
     setProductLoaderIndex(0)
@@ -107,8 +106,13 @@ function App() {
     setProductLoaderIndex(productLoaderIndex + loaderIndexJump)
   }
 
-  function handleChange() {
-    console.log('change');
+  function clear() {
+    setTempData([]);
+    setHasMore(true)
+    setProductLoaderIndex(0)
+    setFilterdData([]);
+    setMinPrice(MIN_PRICE);
+    setMaxPirce(MAX_PRICE);
   }
 
   function getImageUrl(url: string) {
@@ -123,12 +127,12 @@ function App() {
         <Stack className='unika-inner-wrapper'>
           <p>Choose personality</p>
           <Autocomplete
-            onChange={(event, value) => { setPersona(value?.label) }}
+            onChange={(event: any, value: any) => { setPersona(value?.label) }}
             disablePortal
             id="combo-box-demo"
             options={unikaPersonalities.map((personality, index) => ({ 'label': personality, 'id': index }))}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Personality" />}
+            renderInput={(params: any) => <TextField {...params} label="Personality" />}
           />
         </Stack>
 
@@ -147,7 +151,10 @@ function App() {
             />
           </Box>
         </Stack>
-        <Button variant="contained" onClick={click}>search</Button>
+        <span style={{ marginRight: '15px' }}>
+          <Button variant="outlined" onClick={clear}>clear</Button>
+        </span>
+        <Button variant="contained" onClick={search}>search</Button>
       </div>
       <div>
         <b>Amount of items {tempData.length} | min price: {minPrice} | max price: {maxPrice}</b>
@@ -193,7 +200,7 @@ function App() {
           </div>
         ))}
       </div>
-    </div>
+    </div >
   );
 }
 
