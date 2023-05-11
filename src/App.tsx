@@ -177,28 +177,16 @@ function App() {
         >
           {filterdData.map((value: any) => (
             <div key={value.id} className='product-display'>
-              <div className='product-display-name'>{value?.name}</div>
+              <div className='product-display-name'><b>ID: {value?.id}</b></div>
+              <div className='product-display-name'><b>{value?.name}</b></div>
               {/* <div className='product-display-name'>{value?.description.en}</div> */}
-              <div className='product-display-price'>Price: {value?.price?.total}</div>
-              <div className='product-display-price'>Venue: {value?.venueName}</div>
+              <div className='product-display-price'><b>Price: {value?.price?.total}₪</b></div>
+              <div className='product-display-price'><b>Venue: {value?.venueName}</b></div>
               <hr />
               <img src={getImageUrl(value.image[0])} height="150" width="150" />
             </div>
           ))}
         </InfiniteScroll>
-      </div>
-      <div className='product-display-wrapper'>
-        {filterdData.map((value: any) => (
-          <div key={value.id} className='product-display'>
-            <div className='product-display-name'><b>ID: {value?.id}</b></div>
-            <div className='product-display-name'><b>{value?.name}</b></div>
-            {/* <div className='product-display-name'>{value?.description.en}</div> */}
-            <div className='product-display-price'><b>Price: {value?.price?.total}₪</b></div>
-            <div className='product-display-price'><b>Venue: {value?.venueName}</b></div>
-            <hr />
-            <img src={getImageUrl(value.image[0])} height="150" width="150" />
-          </div>
-        ))}
       </div>
     </div >
   );
