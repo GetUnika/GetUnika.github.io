@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/unika-products-dashboard/static/css/main.370b512a.css",
-    "main.js": "/unika-products-dashboard/static/js/main.1d933ce7.js",
+    "main.js": "/unika-products-dashboard/static/js/main.28c949e2.js",
     "static/js/787.b0028b5e.chunk.js": "/unika-products-dashboard/static/js/787.b0028b5e.chunk.js",
     "index.html": "/unika-products-dashboard/index.html",
     "main.370b512a.css.map": "/unika-products-dashboard/static/css/main.370b512a.css.map",
-    "main.1d933ce7.js.map": "/unika-products-dashboard/static/js/main.1d933ce7.js.map",
+    "main.28c949e2.js.map": "/unika-products-dashboard/static/js/main.28c949e2.js.map",
     "787.b0028b5e.chunk.js.map": "/unika-products-dashboard/static/js/787.b0028b5e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.370b512a.css",
-    "static/js/main.1d933ce7.js"
+    "static/js/main.28c949e2.js"
   ]
 }
