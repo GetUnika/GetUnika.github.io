@@ -9,6 +9,20 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const MIN_PRICE = 0;
 const MAX_PRICE = 1000;
 
+const unikaVenues = [
+  'gaya-game',
+  'pulp-shop',
+  'storyonline',
+  'takeanap',
+  '4chef',
+  'spicehaus',
+  'delicatessen',
+  'sunshine',
+  'terminalx',
+  'steimatzky',
+  'cookshop',
+];
+
 const unikaPersonalities = [
   'foodies',
   'gamer',
@@ -43,6 +57,7 @@ function App() {
   const [data, setData] = useState<any | null>([]);
   const [hasMore, setHasMore] = useState(true);
   const [persona, setPersona] = useState<any | null>(null);
+  const [venue, setVenue] = useState<any | null>(null);
   const [minPrice, setMinPrice] = useState(MIN_PRICE);
   const [maxPrice, setMaxPirce] = useState(MAX_PRICE);
   const [productLoaderIndex, setProductLoaderIndex] = useState(loaderIndexJump);
@@ -100,7 +115,12 @@ function App() {
     setTempData([]);
     setHasMore(true)
     setProductLoaderIndex(0)
-    let d = data.filter((product: any) => product.persona.indexOf(persona) > -1 && product.price.total > minPrice && product.price.total < maxPrice);
+    let d = data.filter((product: any) =>
+      (!persona || product.persona.indexOf(persona) > -1) &&
+      (!venue || product.venueName == venue) &&
+      product.price.total > minPrice &&
+      product.price.total < maxPrice
+    );
     setTempData(d);
     setFilterdData(d.slice(0, productLoaderIndex));
     setProductLoaderIndex(productLoaderIndex + loaderIndexJump)
@@ -113,6 +133,8 @@ function App() {
     setFilterdData([]);
     setMinPrice(MIN_PRICE);
     setMaxPirce(MAX_PRICE);
+    setPersona(null);
+    setVenue(null);
   }
 
   function getImageUrl(url: string) {
@@ -135,7 +157,17 @@ function App() {
             renderInput={(params: any) => <TextField {...params} label="Personality" />}
           />
         </Stack>
-
+        <Stack className='unika-inner-wrapper'>
+          <p>Choose venue</p>
+          <Autocomplete
+            onChange={(event: any, value: any) => { setVenue(value?.label) }}
+            disablePortal
+            id="combo-box-demo"
+            options={unikaVenues.map((venue, index) => ({ 'label': venue, 'id': index }))}
+            sx={{ width: 300 }}
+            renderInput={(params: any) => <TextField {...params} label="Venue" />}
+          />
+        </Stack>
         <Stack className='unika-inner-wrapper'>
           <p>Set minimum and maximum price</p>
           <Box sx={{ width: 300 }}>
@@ -179,15 +211,23 @@ function App() {
             <div key={value.id} className='product-display'>
               <div className='product-display-name'><b>ID: {value?.id}</b></div>
               <div className='product-display-name'><b>{value?.name}</b></div>
-              {/* <div className='product-display-name'>{value?.description.en}</div> */}
+              {/* <div className='product-display-name'>Categories:
+                <div>{value?.categories[0]}</div>
+                <div>{value?.categories[1]}</div> */}
+              {/* </div> */}
               <div className='product-display-price'><b>Price: {value?.price?.total}₪</b></div>
+              <hr />
               <div className='product-display-price'><b>Venue: {value?.venueName}</b></div>
+              <hr />
+              <div className='product-display-price'><b>Categories:</b>
+                <span>{value?.categories[0]["key"]}:  {value?.categories[0]["percentage"]}%</span>
+              </div>
               <hr />
               <img src={getImageUrl(value.image[0])} height="150" width="150" />
             </div>
           ))}
         </InfiniteScroll>
-      </div>
+      </div >
     </div >
   );
 }
