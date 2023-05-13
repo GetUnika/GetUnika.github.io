@@ -13,12 +13,12 @@ const unikaVenues = [
   'gaya-game',
   'pulp-shop',
   'storyonline',
-  'takeanap',
+  // 'takeanap',
   '4chef',
   'spicehaus',
   'delicatessen',
   'sunshine',
-  'terminalx',
+  // 'terminalx',
   'steimatzky',
   'cookshop',
 ];
@@ -138,7 +138,7 @@ function App() {
   }
 
   function getImageUrl(url: string) {
-    return url?.startsWith('https://') ? url : `https://${url}`
+    return (url?.startsWith('https://') || url?.startsWith('http://')) ? url : `https://${url}`
   }
 
   return (
